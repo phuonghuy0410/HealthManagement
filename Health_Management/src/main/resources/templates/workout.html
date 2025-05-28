@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{base :: styles}" />
+    <title>Buổi tập</title>
+</head>
+<body>
+    <th:block th:replace="~{base :: header}" />
+
+    <div class="container mt-4">
+        <h2 class="text-center">Lịch sử buổi tập</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr><th>Loại</th><th>Thời lượng (phút)</th><th>Ghi chú</th></tr>
+            </thead>
+            <tbody>
+                <tr th:each="w : ${workouts}">
+                    <td th:text="${w.type}"></td>
+                    <td th:text="${w.duration}"></td>
+                    <td th:text="${w.note}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <th:block th:replace="~{base :: footer}" />
+</body>
+</html>
+

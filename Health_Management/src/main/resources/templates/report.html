@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{base :: styles}" />
+    <title>Thống kê</title>
+</head>
+<body>
+    <th:block th:replace="~{base :: header}" />
+
+    <div class="container mt-4">
+        <h2 class="text-center">Thống kê hoạt động</h2>
+        <p th:text="${summary}" class="text-center">Dữ liệu thống kê đang được cập nhật...</p>
+        <div class="text-center">
+            <canvas id="reportChart" width="600" height="300"></canvas>
+        </div>
+    </div>
+
+    <th:block th:replace="~{base :: footer}" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('reportChart');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Tuần 1', 'Tuần 2', 'Tuần 3'],
+                datasets: [{
+                    label: 'Buổi tập',
+                    data: [3, 4, 2],
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)'
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
+

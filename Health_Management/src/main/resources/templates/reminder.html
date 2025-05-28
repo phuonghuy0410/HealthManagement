@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{base :: styles}" />
+    <title>Nhắc nhở</title>
+</head>
+<body>
+    <th:block th:replace="~{base :: header}" />
+
+    <div class="container mt-4">
+        <h2 class="text-center">Danh sách lời nhắc</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr><th>Nội dung</th><th>Thời gian nhắc</th></tr>
+            </thead>
+            <tbody>
+                <tr th:each="r : ${reminders}">
+                    <td th:text="${r.message}"></td>
+                    <td th:text="${r.remindTime}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <th:block th:replace="~{base :: footer}" />
+</body>
+</html>
+

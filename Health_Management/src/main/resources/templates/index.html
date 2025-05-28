@@ -1,10 +1,27 @@
-<!doctype html>
-<html  xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Trang chủ</title>
-    </head>
-    <body>
-        <h1>Chào mừng đến với trang web</h1>
-        <h1 th:text="${msg}"></h1>
-    </body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{base :: styles}" />
+    <title>Trang chủ</title>
+</head>
+<body>
+    <th:block th:replace="~{base :: header}" />
+
+    <div class="container mt-4">
+        <h2 class="text-center">Danh sách người dùng</h2>
+        <table class="table table-bordered">
+            <thead><tr><th>ID</th><th>Họ tên</th><th>Email</th><th>Hành động</th></tr></thead>
+            <tbody>
+                <tr th:each="u : ${users}">
+                    <td th:text="${u.user_id}"></td>
+                    <td th:text="${u.fullname}"></td>
+                    <td th:text="${u.email}"></td>
+                    <td><a th:href="@{'/health' + ${u.user_id}}" class="btn btn-primary btn-sm">Xem Hồ sơ</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <th:block th:replace="~{base :: footer}" />
+</body>
 </html>
