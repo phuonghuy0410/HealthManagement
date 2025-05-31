@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký tài khoản</title>
+    <th:block th:replace="~{base :: styles}" />
+</head>
+<body>
+<th:block th:replace="~{base :: header}" />
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="text-center mb-4">Đăng ký tài khoản</h2>
+
+    <form th:action="@{/register}" th:object="${user}" method="post">
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Tên đăng nhập:</label>
+            <input type="text" th:field="*{username}" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mật khẩu:</label>
+            <input type="password" th:field="*{password}" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Họ và tên:</label>
+            <input type="text" th:field="*{fullName}" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Vai trò:</label>
+            <select th:field="*{role}" class="form-select" required>
+                <option value="User">Người dùng</option>
+                <option value="Expert">Chuyên gia</option>
+            </select>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">Đăng ký</button>
+        </div>
+    </form>
+</div>
+
+<th:block th:replace="~{base :: footer}" />
+</body>
+</html>

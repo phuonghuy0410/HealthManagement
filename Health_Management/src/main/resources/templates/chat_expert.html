@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chat huấn luyện viên</title>
+    <th:block th:replace="~{base :: styles}" />
+</head>
+<body>
+<th:block th:replace="~{base :: header}" />
+
+<div class="container mt-4">
+    <h4>Trò chuyện với người dùng</h4>
+
+    <!-- ✅ Cập nhật chọn người đúng cách -->
+    <div class="mb-3">
+        <label>Chọn người dùng:</label>
+        <select class="form-control"
+                th:attr="onchange=|if(this.value) location.href='@{/chat/}' + this.value|">
+            <option value="">-- Chọn người dùng --</option>
+            <option th:each="p : ${partners}" th:value="${p.userId}"
+                    th:selected="${partner != null and partner.userId == p.userId}"
+                    th:text="${p.fullName}">Người dùng</option>
+        </select>
+    </div>
+
+    <form th:if="${partner != null}" th:action="@{/chat/send/{id}(id=${partner.userId})}"
+          method="post" th:object="${newMessage}">
+        <div class="mb-3">
+            <textarea class="form-control" th:field="*{content}" placeholder="Nhập tin nhắn..." required></textarea>
+            <button class="btn btn-success mt-2">Gửi</button>
+        </div>
+    </form>
+
+    <div th:if="${partner != null}">
+        <hr/>
+        <h5>Lịch sử với [[${partner.fullName}]]</h5>
+
+        <ul class="list-group" th:if="${#lists.isEmpty(messages)}">
+            <li class="list-group-item text-muted fst-italic">Chưa có tin nhắn nào.</li>
+        </ul>
+
+        <ul class="list-group" th:if="${!#lists.isEmpty(messages)}">
+            <li class="list-group-item" th:each="m : ${messages}">
+                <b th:text="${m.sender.fullName} + ':'"></b>
+                <span th:text="${m.content}"></span><br/>
+                <small th:text="${#dates.format(m.sentTime, 'dd/MM/yyyy HH:mm')}"></small>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<th:block th:replace="~{base :: footer}" />
+</body>
+</html>

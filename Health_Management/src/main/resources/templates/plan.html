@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kế hoạch luyện tập</title>
+    <th:block th:replace="~{base :: styles}" />
+</head>
+<body>
+<th:block th:replace="~{base :: header}" />
+
+<div class="container mt-4">
+    <h2>Kế hoạch tập luyện / dinh dưỡng</h2>
+
+    <form th:action="@{/plan/save}" method="post" th:object="${plan}" class="mb-4">
+        <div class="mb-3">
+            <label class="form-label">Tiêu đề:</label>
+            <input type="text" class="form-control" th:field="*{title}" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mô tả:</label>
+            <textarea class="form-control" th:field="*{description}" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Ngày bắt đầu:</label>
+            <input type="date" class="form-control" th:field="*{startDate}" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu kế hoạch</button>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Tiêu đề</th>
+                <th>Mô tả</th>
+                <th>Ngày bắt đầu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${plans}">
+                <td th:text="${p.title}"></td>
+                <td th:text="${p.description}"></td>
+                <td th:text="${#dates.format(p.startDate, 'dd/MM/yyyy')}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<th:block th:replace="~{base :: footer}" />
+</body>
+</html>
+

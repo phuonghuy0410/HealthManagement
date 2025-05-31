@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.Health_Management.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "workouts")
@@ -16,105 +13,79 @@ public class Workout {
     @Column(name = "workout_id")
     private int workoutId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "calories_burned")
+    private Integer caloriesBurned;
 
     @Column(name = "workout_date")
-    private java.sql.Date workoutDate;
+    private Date workoutDate;
+
+    private Integer duration;
 
     @Column(name = "exercise_name")
     private String exerciseName;
 
-    @Column(name = "duration")
-    private int duration;
+    private String note;
 
-    @Column(name = "calories_burned")
-    private float caloriesBurned;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore // ✅ Bắt buộc để tránh lỗi khi trả về JSON cho React
+    private User user;
 
-    // Getters & Setters...
+    // ====== Getters & Setters ======
 
-    /**
-     * @return the workoutId
-     */
     public int getWorkoutId() {
         return workoutId;
     }
 
-    /**
-     * @param workoutId the workoutId to set
-     */
     public void setWorkoutId(int workoutId) {
         this.workoutId = workoutId;
     }
 
-    /**
-     * @return the user
-     */
-    public User getUser() {
-        return user;
+    public Integer getCaloriesBurned() {
+        return caloriesBurned;
     }
 
-    /**
-     * @param user the user to set
-     */
-    public void setUser(User user) {
-        this.user = user;
+    public void setCaloriesBurned(Integer caloriesBurned) {
+        this.caloriesBurned = caloriesBurned;
     }
 
-    /**
-     * @return the workoutDate
-     */
-    public java.sql.Date getWorkoutDate() {
+    public Date getWorkoutDate() {
         return workoutDate;
     }
 
-    /**
-     * @param workoutDate the workoutDate to set
-     */
-    public void setWorkoutDate(java.sql.Date workoutDate) {
+    public void setWorkoutDate(Date workoutDate) {
         this.workoutDate = workoutDate;
     }
 
-    /**
-     * @return the exerciseName
-     */
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
     public String getExerciseName() {
         return exerciseName;
     }
 
-    /**
-     * @param exerciseName the exerciseName to set
-     */
     public void setExerciseName(String exerciseName) {
         this.exerciseName = exerciseName;
     }
 
-    /**
-     * @return the duration
-     */
-    public int getDuration() {
-        return duration;
+    public String getNote() {
+        return note;
     }
 
-    /**
-     * @param duration the duration to set
-     */
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    /**
-     * @return the caloriesBurned
-     */
-    public float getCaloriesBurned() {
-        return caloriesBurned;
+    public User getUser() {
+        return user;
     }
 
-    /**
-     * @param caloriesBurned the caloriesBurned to set
-     */
-    public void setCaloriesBurned(float caloriesBurned) {
-        this.caloriesBurned = caloriesBurned;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

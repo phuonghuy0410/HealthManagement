@@ -1,37 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>Báo cáo</title>
     <th:block th:replace="~{base :: styles}" />
-    <title>Thống kê</title>
 </head>
 <body>
-    <th:block th:replace="~{base :: header}" />
+<th:block th:replace="~{base :: header}" />
 
-    <div class="container mt-4">
-        <h2 class="text-center">Thống kê hoạt động</h2>
-        <p th:text="${summary}" class="text-center">Dữ liệu thống kê đang được cập nhật...</p>
-        <div class="text-center">
-            <canvas id="reportChart" width="600" height="300"></canvas>
-        </div>
-    </div>
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">📊 Thống kê luyện tập</h2>
 
-    <th:block th:replace="~{base :: footer}" />
+    <form method="get" th:action="@{/report}" class="mb-3" th:if="${isTrainer}">
+        <label>Chọn người dùng:</label>
+        <select name="userId" onchange="this.form.submit()" class="form-select">
+            <option th:each="u : ${users}"
+                    th:value="${u.userId}"
+                    th:text="${u.fullName}"
+                    th:selected="${selectedId == u.userId}">
+            </option>
+        </select>
+    </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('reportChart');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Tuần 1', 'Tuần 2', 'Tuần 3'],
-                datasets: [{
-                    label: 'Buổi tập',
-                    data: [3, 4, 2],
-                    backgroundColor: 'rgba(75, 192, 192, 0.7)'
-                }]
-            }
-        });
-    </script>
+    <table class="table table-bordered text-center mt-3">
+        <tr>
+            <th>Tổng số buổi tập</th>
+            <th>Tổng thời lượng (phút)</th>
+            <th>Tổng calories tiêu thụ</th>
+        </tr>
+        <tr>
+            <td th:text="${stats.totalSessions}">0</td>
+            <td th:text="${stats.totalDuration}">0</td>
+            <td th:text="${stats.totalCalories}">0</td>
+        </tr>
+    </table>
+</div>
+
+<th:block th:replace="~{base :: footer}" />
 </body>
 </html>
-

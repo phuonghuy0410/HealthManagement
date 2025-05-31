@@ -1,29 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="~{base :: styles}" />
     <title>Buổi tập</title>
+    <th:block th:replace="~{base :: styles}" />
 </head>
 <body>
-    <th:block th:replace="~{base :: header}" />
+<th:block th:replace="~{base :: header}" />
 
-    <div class="container mt-4">
-        <h2 class="text-center">Lịch sử buổi tập</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr><th>Loại</th><th>Thời lượng (phút)</th><th>Ghi chú</th></tr>
-            </thead>
-            <tbody>
-                <tr th:each="w : ${workouts}">
-                    <td th:text="${w.type}"></td>
-                    <td th:text="${w.duration}"></td>
-                    <td th:text="${w.note}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="container mt-4">
+    <h2 class="mb-3">Buổi tập hôm nay</h2>
 
-    <th:block th:replace="~{base :: footer}" />
+    <h5>Kế hoạch hôm nay</h5>
+    <div th:if="${#lists.isEmpty(todayPlans)}" class="alert alert-secondary">Không có kế hoạch nào hôm nay.</div>
+    <ul class="list-group mb-4" th:if="${not #lists.isEmpty(todayPlans)}">
+        <li class="list-group-item" th:each="p : ${todayPlans}" th:text="${p.title + ': ' + p.description}"></li>
+    </ul>
+
+    <form th:action="@{/workout/save}" method="post" th:object="${workout}">
+        <div class="mb-3">
+            <label>Ngày tập:</label>
+            <input type="date" class="form-control" th:field="*{workoutDate}" required />
+        </div>
+        <div class="mb-3">
+            <label>Tên bài tập:</label>
+            <input type="text" class="form-control" th:field="*{exerciseName}" required />
+        </div>
+        <div class="mb-3">
+            <label>Thời lượng (phút):</label>
+            <input type="number" class="form-control" th:field="*{duration}" required />
+        </div>
+        <div class="mb-3">
+            <label>Calories tiêu hao:</label>
+            <input type="number" class="form-control" th:field="*{caloriesBurned}" required />
+        </div>
+        <div class="mb-3">
+            <label>Ghi chú sau tập:</label>
+            <textarea class="form-control" th:field="*{note}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">✔ Hoàn thành buổi tập</button>
+    </form>
+
+    <h4 class="mt-5">Lịch sử buổi tập</h4>
+    <table class="table table-bordered text-center mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Ngày</th>
+                <th>Bài tập</th>
+                <th>Thời lượng</th>
+                <th>Calories</th>
+                <th>Ghi chú</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="w : ${workouts}">
+                <td th:text="${#dates.format(w.workoutDate, 'dd/MM/yyyy')}">29/05/2025</td>
+                <td th:text="${w.exerciseName}">Tập A</td>
+                <td th:text="${w.duration}">60</td>
+                <td th:text="${w.caloriesBurned}">300</td>
+                <td th:text="${w.note}">OK</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<th:block th:replace="~{base :: footer}" />
 </body>
 </html>
-

@@ -11,22 +11,67 @@
 <header th:fragment="header">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Sức khỏe</a>
+            <a class="navbar-brand" th:href="@{/}">Sức khỏe</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav me-auto">
+
+                    <!-- Luôn hiển thị -->
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Trang chủ</a>
+                    </li>
+
+                    <!-- Trò chuyện -->
+                    <li class="nav-item" th:if="${session.currentUser != null}">
+                        <a class="nav-link" th:href="@{/chat}">💬 Trò chuyện</a>
+                    </li>
+
+                    <!-- Dành cho Người dùng -->
+                    <li class="nav-item" th:if="${session.currentUser != null and session.currentUser.role != 'Expert'}">
+                        <a class="nav-link" th:href="@{/healthprofile}">Hồ sơ sức khỏe</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentUser != null and session.currentUser.role != 'Expert'}">
+                        <a class="nav-link" th:href="@{/workout}">Buổi tập</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentUser != null and session.currentUser.role != 'Expert'}">
+                        <a class="nav-link" th:href="@{/plan}">Kế hoạch</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentUser != null and session.currentUser.role != 'Expert'}">
+                        <a class="nav-link" th:href="@{/reminder}">Nhắc nhở</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentUser != null and session.currentUser.role != 'Expert'}">
+                        <a class="nav-link" th:href="@{/report}">Thống kê</a>
+                    </li>
+
+                    <!-- Dành riêng cho Chuyên gia -->
+                    <li class="nav-item" th:if="${session.currentUser != null and session.currentUser.role == 'Expert'}">
+                        <a class="nav-link" th:href="@{/users}">Danh sách người dùng</a>
+                    </li>
+                </ul>
+
+                <!-- Góc phải: login/logout -->
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/}">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/healthprofile}">Hồ sơ sức khỏe</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/workout}">Buổi tập</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/reminder}">Nhắc nhở</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/report}">Thống kê</a></li>
+                    <li class="nav-item" th:if="${session.currentUser != null}">
+                        <span class="nav-link disabled text-white" th:text="'👤 ' + ${session.currentUser.fullName}">👤 Họ tên</span>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentUser != null}">
+                        <a class="nav-link text-warning" th:href="@{/logout}">Đăng xuất</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentUser == null}">
+                        <a class="nav-link text-light" th:href="@{/login}">Đăng nhập</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentUser == null}">
+                        <a class="nav-link text-light" th:href="@{/register}">Đăng ký</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
+
 <footer th:fragment="footer">
     <div class="mt-4 p-5 bg-primary text-white text-center">
         <h1>PTHTW &copy; 2025</h1>

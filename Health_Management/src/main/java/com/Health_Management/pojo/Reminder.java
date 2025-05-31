@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.Health_Management.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import java.sql.Time;
+
+import java.sql.Date;
 
 @Entity
 @Table(name = "reminders")
@@ -16,88 +14,70 @@ public class Reminder {
     @Column(name = "reminder_id")
     private int reminderId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     @Column(name = "reminder_type")
     private String reminderType;
 
-    @Column(name = "message")
     private String message;
 
+    // SỬA TỪ java.sql.Time -> String để tương thích với HTML input[type="time"]
     @Column(name = "reminder_time")
-    private java.sql.Time reminderTime;
+    private String reminderTime;
 
- 
+    @Column(name = "reminder_date")
+    private Date reminderDate;
 
-    /**
-     * @return the reminderId
-     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
+    // ===== Getters & Setters =====
+
     public int getReminderId() {
         return reminderId;
     }
 
-    /**
-     * @param reminderId the reminderId to set
-     */
     public void setReminderId(int reminderId) {
         this.reminderId = reminderId;
     }
 
-    /**
-     * @return the user
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * @param user the user to set
-     */
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    /**
-     * @return the reminderType
-     */
     public String getReminderType() {
         return reminderType;
     }
 
-    /**
-     * @param reminderType the reminderType to set
-     */
     public void setReminderType(String reminderType) {
         this.reminderType = reminderType;
     }
 
-    /**
-     * @return the message
-     */
     public String getMessage() {
         return message;
     }
 
-    /**
-     * @param message the message to set
-     */
     public void setMessage(String message) {
         this.message = message;
     }
 
-    /**
-     * @return the reminderTime
-     */
-    public java.sql.Time getReminderTime() {
+    public String getReminderTime() {
         return reminderTime;
     }
 
-    /**
-     * @param reminderTime the reminderTime to set
-     */
-    public void setReminderTime(java.sql.Time reminderTime) {
+    public void setReminderTime(String reminderTime) {
         this.reminderTime = reminderTime;
+    }
+
+    public Date getReminderDate() {
+        return reminderDate;
+    }
+
+    public void setReminderDate(Date reminderDate) {
+        this.reminderDate = reminderDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -1,25 +1,45 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.Health_Management.services;
 
+import com.Health_Management.configs.HibernateUtil;
 import com.Health_Management.pojo.Reminder;
-import com.Health_Management.Repository.ReminderRepository;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
+@Service
 public class ReminderService {
-    private final ReminderRepository reminderRepository = new ReminderRepository();
 
-    public boolean addReminder(Reminder reminder) {
-        return reminderRepository.addReminder(reminder);
+    public List<Reminder> getRemindersByUser(int userId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(
+                    "FROM Reminder r WHERE r.user.userId = :uid ORDER BY r.reminderTime ASC", Reminder.class)
+                    .setParameter("uid", userId)
+                    .list();
+        }
     }
 
-    public List<Reminder> getByUserId(int userId) {
-        return reminderRepository.getRemindersByUser(userId);
+    public List<Reminder> getAll() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Reminder ORDER BY reminderTime ASC", Reminder.class).list();
+        }
     }
 
-    public boolean deleteReminder(int id) {
-        return reminderRepository.deleteReminder(id);
+    public void addOrUpdateReminder(Reminder reminder) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction tx = session.beginTransaction();
+            session.saveOrUpdate(reminder);
+            tx.commit();
+        }
+    }
+
+    public void deleteReminder(int id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction tx = session.beginTransaction();
+            Reminder r = session.get(Reminder.class, id);
+            if (r != null) session.delete(r);
+            tx.commit();
+        }
     }
 }

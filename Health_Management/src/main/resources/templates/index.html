@@ -1,27 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="~{base :: styles}" />
     <title>Trang chủ</title>
+    <th:block th:replace="~{base :: styles}" />
 </head>
 <body>
-    <th:block th:replace="~{base :: header}" />
+<th:block th:replace="~{base :: header}" />
 
-    <div class="container mt-4">
-        <h2 class="text-center">Danh sách người dùng</h2>
-        <table class="table table-bordered">
-            <thead><tr><th>ID</th><th>Họ tên</th><th>Email</th><th>Hành động</th></tr></thead>
-            <tbody>
-                <tr th:each="u : ${users}">
-                    <td th:text="${u.user_id}"></td>
-                    <td th:text="${u.fullname}"></td>
-                    <td th:text="${u.email}"></td>
-                    <td><a th:href="@{'/health' + ${u.user_id}}" class="btn btn-primary btn-sm">Xem Hồ sơ</a></td>
-                </tr>
-            </tbody>
-        </table>
+<div class="container mt-5 text-center">
+    <h1 class="mb-3">Ứng dụng Quản lý Sức khỏe</h1>
+    <p>Chào mừng bạn đến với hệ thống quản lý sức khỏe và theo dõi hoạt động cá nhân.</p>
+
+    <!-- CHỈ hiển thị nếu chưa đăng nhập -->
+    <div th:if="${session.currentUser == null}" class="mt-4">
+        <a th:href="@{/login}" class="btn btn-primary m-2">Đăng nhập</a>
+        <a th:href="@{/register}" class="btn btn-success m-2">Đăng ký</a>
     </div>
-
-    <th:block th:replace="~{base :: footer}" />
+</div>
+<th:block th:replace="~{base :: footer}" />
 </body>
 </html>

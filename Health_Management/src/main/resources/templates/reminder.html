@@ -1,28 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="~{base :: styles}" />
     <title>Nhắc nhở</title>
+    <th:block th:replace="~{base :: styles}" />
 </head>
 <body>
-    <th:block th:replace="~{base :: header}" />
+<th:block th:replace="~{base :: header}" />
 
-    <div class="container mt-4">
-        <h2 class="text-center">Danh sách lời nhắc</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr><th>Nội dung</th><th>Thời gian nhắc</th></tr>
-            </thead>
-            <tbody>
-                <tr th:each="r : ${reminders}">
-                    <td th:text="${r.message}"></td>
-                    <td th:text="${r.remindTime}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="container mt-4">
+    <h2 class="mb-3 text-center">🔔 Quản lý nhắc nhở</h2>
 
-    <th:block th:replace="~{base :: footer}" />
+    <!-- ✅ Sửa đường dẫn và tên object -->
+    <form th:action="@{/reminder/save}" method="post" th:object="${reminder}" class="mb-4">
+        <div class="mb-3">
+            <label class="form-label">Loại nhắc nhở</label>
+            <select class="form-select" th:field="*{reminderType}" required>
+                <option value="Water">Uống nước</option>
+                <option value="Exercise">Tập luyện</option>
+                <option value="Rest">Nghỉ ngơi</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nội dung nhắc nhở</label>
+            <input type="text" class="form-control" th:field="*{message}" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Giờ nhắc nhở</label>
+            <input type="time" class="form-control" th:field="*{reminderTime}" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu nhắc nhở</button>
+    </form>
+
+    <h4 class="mt-5">📋 Danh sách nhắc nhở</h4>
+    <table class="table table-bordered text-center">
+        <tr>
+            <th>Loại</th>
+            <th>Nội dung</th>
+            <th>Giờ</th>
+        </tr>
+        <tr th:each="r : ${reminders}">
+            <td th:text="${r.reminderType}">Water</td>
+            <td th:text="${r.message}">Nhớ uống</td>
+            <td th:text="${r.reminderTime}">08:00</td>
+        </tr>
+    </table>
+</div>
+
+<th:block th:replace="~{base :: footer}" />
 </body>
 </html>
-

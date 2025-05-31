@@ -19,7 +19,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {
-    "com.Health_Management.controllers"
+    "com.Health_Management.controllers",
+    "com.Health_Management.services",    
+    "com.Health_Management.pojo"
 })
 public class WebAppContextConfigs  implements WebMvcConfigurer{
 

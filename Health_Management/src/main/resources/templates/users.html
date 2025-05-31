@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách người dùng</title>
+    <th:block th:replace="~{base :: styles}" />
+</head>
+<body>
+<th:block th:replace="~{base :: header}" />
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">👥 Danh sách người dùng</h2>
+
+    <div th:if="${users != null and #lists.isEmpty(users)}" class="alert alert-warning text-center">
+        Chưa có người dùng nào trong hệ thống.
+    </div>
+
+    <table class="table table-bordered table-striped" th:if="${users != null and !#lists.isEmpty(users)}">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Họ tên</th>
+                <th>Tên đăng nhập</th>
+                <th>Vai trò</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="u, iterStat : ${users}">
+                <td th:text="${iterStat.count}">1</td>
+                <td th:text="${u.fullName}">Nguyen Van A</td>
+                <td th:text="${u.username}">username</td>
+                <td th:text="${u.role}">User</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<th:block th:replace="~{base :: footer}" />
+</body>
+</html>

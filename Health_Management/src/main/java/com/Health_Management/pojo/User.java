@@ -1,6 +1,10 @@
 package com.Health_Management.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -11,155 +15,114 @@ public class User {
     @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "username")
     private String username;
-
-    @Column(name = "password")
     private String password;
 
     @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "age")
     private int age;
-
-    @Column(name = "height")
     private float height;
-
-    @Column(name = "weight")
     private float weight;
-
-    @Column(name = "role")
     private String role;
 
     @Column(name = "created_at")
-    private java.sql.Timestamp createdAt;
+    private Timestamp createdAt;
 
-    // Getters & Setters...
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Message> sentMessages;
 
-    /**
-     * @return the userId
-     */
+    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Message> receivedMessages;
+
+    // Getters & Setters
     public int getUserId() {
         return userId;
     }
 
-    /**
-     * @param userId the userId to set
-     */
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    /**
-     * @return the username
-     */
     public String getUsername() {
         return username;
     }
 
-    /**
-     * @param username the username to set
-     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     * @return the password
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * @param password the password to set
-     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /**
-     * @return the fullName
-     */
     public String getFullName() {
         return fullName;
     }
 
-    /**
-     * @param fullName the fullName to set
-     */
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    /**
-     * @return the age
-     */
     public int getAge() {
         return age;
     }
 
-    /**
-     * @param age the age to set
-     */
     public void setAge(int age) {
         this.age = age;
     }
 
-    /**
-     * @return the height
-     */
     public float getHeight() {
         return height;
     }
 
-    /**
-     * @param height the height to set
-     */
     public void setHeight(float height) {
         this.height = height;
     }
 
-    /**
-     * @return the weight
-     */
     public float getWeight() {
         return weight;
     }
 
-    /**
-     * @param weight the weight to set
-     */
     public void setWeight(float weight) {
         this.weight = weight;
     }
 
-    /**
-     * @return the role
-     */
     public String getRole() {
         return role;
     }
 
-    /**
-     * @param role the role to set
-     */
     public void setRole(String role) {
         this.role = role;
     }
 
-    /**
-     * @return the createdAt
-     */
-    public java.sql.Timestamp getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    /**
-     * @param createdAt the createdAt to set
-     */
-    public void setCreatedAt(java.sql.Timestamp createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Set<Message> getSentMessages() {
+        return sentMessages;
+    }
+
+    public void setSentMessages(Set<Message> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
+
+    public Set<Message> getReceivedMessages() {
+        return receivedMessages;
+    }
+
+    public void setReceivedMessages(Set<Message> receivedMessages) {
+        this.receivedMessages = receivedMessages;
     }
 }
